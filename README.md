@@ -10,6 +10,8 @@ The name "gervifonn" derives from the icelandic words "gervigreind" (Artificial 
 
 ## Components
 ### Case
+![Gervifonn case](case/gervifonn.png "Gervifonn case")
+The case is 3D printed. The [OpenSCAD](https://www.openscad.org/) source and generated STL files can be found under [case](case). The case is made from three parts, for assembly 12 M3 bolts and 8 M3 nuts are needed.
 ### Hardware
 ### Software on the device
 ### Software for training the AI
