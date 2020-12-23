@@ -26,8 +26,26 @@ Additionally the following parts were used (links to amazon.de, not sponsored):
 * Power supply for Raspberry Pi 3
 
 ### Software on the device
+The software running on the gervifonn can be found under [src](src). Install the requirements with `pip install -r requirements.txt` and place [src\gervifonn.py](src\gervifonn.py) into the autostart of your raspberry. You might want to adapt the path to the music directory, the hostname of the [MPD](https://www.musicpd.org/) server, and the (Snapcast)[https://github.com/badaix/snapcast] server and client in the last line.
+
 ### Software for training the AI
+The AI-model needs to be trained on a more powerfull machine than a raspberry pi. A GPU with CUDA support is recommended. To train the model use [training/train_gervifonn.py](training/train_gervifonn.py), with the path to your music folder and a folder with background images as arguments (details see below).
+The resulting `gervifonn.model` needs to be converted to a `gervifonn.tflite` model and placed together with the generated `labels.txt` on your raspberry pi in the same folder as [src\gervifonn.py].
 
 ## Prerequesites
+The gervifonn currently expects the following environment:
+### Music library
+The music library should be structured in the way [Jack](https://github.com/jack-cli-cd-ripper/jack) creates it, meaning one folder per Artist with subfolders for each album. Samplers are stored in the `Various` folder.
+
+In addition, a cover image must be present in each folder, named `cover.png`. Optionally, you can place additional cover images in a subfolder called `gervifonn` inside each album. This will also be done by the gervifonn when you are using it.
+
+As albums with multiple CDs only have one cover, only place the `cover.png` in the first folder and create symlinks called `next` linking to the following CD.
+
+### Music Player Daemon
+The actual playback of the music is handled by the (Music Player Daemon)[https://www.musicpd.org/]. The MPD should be configured to read in your music library and should be reachable from the gervifonn (without authentification). If you don't have an extra machine, it should be fine to install the MPD on the gervifonn as well.
+
+### Scnapcast
+The audio is streamed from the MPD via (Snapcast)[https://github.com/badaix/snapcast] to the actual playback devices. The volume of one Snapcast client can be controlled by the gervifonn.
+
 ## Configuration
 ## Detailed Usage
