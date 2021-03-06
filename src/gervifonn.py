@@ -286,7 +286,7 @@ class gervifonn:
             self.title = ''
             self.coverimage = ImageTk.PhotoImage(Image.new("RGB", (20, 20), "white"))
         self.volume = self.snaploop.run_until_complete(self.snapserver.client_status(self.snapclientid))['config']['volume']['percent']
-        self.volumeupdate = 1
+        self.volupdate = 1
         self.volumescale.set(self.volume)
         if self.state == 'default':
             self.covercanvas.itemconfigure(self.canvascoverimage, image=self.coverimage)
