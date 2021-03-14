@@ -1,6 +1,7 @@
 # gervifonn
 
 The gervifonn is a device to access music stored in a digital music library by interacting with physical CD cases.
+![Gervifonn](gervifonn_svavar_knutur.jpg "Gervifonn with Brot by Svavar Knutur")
 
 ## Features
 The gervifonn displays the currently playing album. You can change the volume, pause playback or skip to the previous/next song. When you put a CD case onto the gervifonn and press the knob, it uses an AI to recognize the album you want to play.
