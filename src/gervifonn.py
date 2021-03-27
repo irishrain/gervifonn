@@ -250,14 +250,14 @@ class gervifonn:
         self.confirmbutton.grid_forget()
 
     def settime(self, perc):
-        status = self.mpc.status()
-        if status['state'] in ['pause', 'play']:
-            newtime = float(status['duration'])*float(perc)/100
-            if self.timeupdate == 0:
+        if self.timeupdate == 0:
+            status = self.mpc.status()
+            if 'state' in status and 'duration' in status and status['state'] in ['pause', 'play']:
+                newtime = float(status['duration'])*float(perc)/100
                 print('seek to', newtime)
                 self.mpc.seekcur(newtime)
-            else:
-                self.timeupdate = 0
+        else:
+            self.timeupdate = 0
 
     def setvol(self, perc):
         if self.volupdate == 0:
