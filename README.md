@@ -27,10 +27,10 @@ Additionally the following parts were used (links to amazon.de, not sponsored):
 * Power supply for Raspberry Pi 3
 
 ### Software on the device
-The software running on the gervifonn can be found under [src](src). Install the requirements with `pip install -r requirements.txt` and place [src\gervifonn.py](src\gervifonn.py) into the autostart of your raspberry. You might want to adapt the path to the music directory, the hostname of the [MPD](https://www.musicpd.org/) server, and the (Snapcast)[https://github.com/badaix/snapcast] server and client in the last line.
+The software running on the gervifonn can be found under [src](src). Install the requirements with `pip install -r requirements.txt` and place [src\gervifonn.desktop](src\gervifonn.desktop) into the /home/pi/.config/autostart/ directory of your raspberry. You might want to adapt the path to the music directory, the hostname of the [MPD](https://www.musicpd.org/) server, and the (Snapcast)[https://github.com/badaix/snapcast] server and client.
 
 ### Software for training the AI
-The AI-model needs to be trained on a more powerfull machine than a raspberry pi. A GPU with CUDA support is recommended. To train the model use [training/train_gervifonn.py](training/train_gervifonn.py), with the path to your music folder and a folder with background images as arguments (details see below).
+The AI-model needs to be trained on a more powerfull machine than a raspberry pi. A GPU with CUDA support is recommended, see [here](https://www.tensorflow.org/install/gpu#install_cuda_with_apt) for installation hints for the required libraries. To train the model use [training/train_gervifonn.py](training/train_gervifonn.py), with the path to your music folder and a folder with background images as arguments (details see below).
 The resulting `gervifonn.model` needs to be converted to a `gervifonn.tflite` model and placed together with the generated `labels.txt` on your raspberry pi in the same folder as [src\gervifonn.py].
 
 ## Prerequesites
