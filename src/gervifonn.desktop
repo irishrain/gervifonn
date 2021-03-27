@@ -1,0 +1,4 @@
+[Desktop Entry]
+Type=Application
+Name=gervifonn
+Exec=/usr/bin/python3 /home/pi/gervifonn/src/gervifonn.py -m /home/pi/music -n raspberrypi -s raspberrypi -c Wohnzimmer
