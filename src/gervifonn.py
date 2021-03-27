@@ -28,6 +28,7 @@ import tflite_runtime.interpreter as tflite
 import asyncio
 import snapcast.control
 import os
+import argparse
 
 
 class album:
@@ -456,4 +457,10 @@ class gervifonn:
 
 
 if __name__ == "__main__":
-    GF = gervifonn('/home/pi/music/', os.path.dirname(__file__), 'raspberrypi', 'raspberrypi', 'Wohnzimmer')
+    parser = argparse.ArgumentParser(description='Gervifonn GUI')
+    parser.add_argument('-m', '--musicfolder',  required=True,  help='Path to the music library')
+    parser.add_argument('-n', '--mpdserver', required=True, help='Hostname of the MPD server')
+    parser.add_argument('-s', '--snapcastserver', required=True, help='Hostname of the snapcast server')
+    parser.add_argument('-c', '--snapcastclient', required=True, help='Name of the snapcast client')
+    args=parser.parse_args()
+    GF = gervifonn(args.musicfolder, os.path.dirname(__file__), args.mpdserver, args.snapcastserver,args.snapcastclient)
