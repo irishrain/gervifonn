@@ -26,9 +26,9 @@ import numpy as np
 from scipy import ndimage
 import random
 import os
-import sys
 from keras.applications import DenseNet121
 import tensorflow as tf
+import argparse
 
 gpu = tf.config.experimental.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(gpu[0], True)
@@ -157,8 +157,12 @@ class gervifonntrainingdatagenerator(Sequence):
 
 
 if __name__ == "__main__":
-    musicfolder = sys.argv[1]
-    bgfolder = sys.argv[2]
+    parser = argparse.ArgumentParser(description='Create TFLite model for gervifonn')
+    parser.add_argument('-m', '--musicfolder',  required=True,  help='Path to the music library')
+    parser.add_argument('-b', '--backgroundfolder', required=True, help='Path to the background images')
+    args=parser.parse_args()
+    musicfolder = args.musicfolder
+    bgfolder = args.backgroundfolder
     generator = gervifonntrainingdatagenerator(musicfolder, bgfolder, 'train')
     valgenerator = gervifonntrainingdatagenerator(musicfolder, bgfolder, 'val')
     model = DenseNet121(input_shape=(imgsize, imgsize, 3), weights=None, classes=generator.numclasses)
