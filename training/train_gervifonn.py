@@ -174,6 +174,10 @@ if __name__ == "__main__":
     for key in generator.classes.keys():
         f.write("{} {}\n".format(generator.classes[key], key))
     f.close()
+    converter = tf.lite.TFLiteConverter.from_keras_model(model)
+    tflite_model = converter.convert()
+    with open("gervifonn.tflite", "wb") as f:
+        f.write(tflite_model)
     generator.on_epoch_end()
     batch_x, batch_y = generator.__getbatch__(0, len(generator.data)*min(generator.factor, 10))
     predIdxs = model.predict(batch_x)
