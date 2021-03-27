@@ -268,13 +268,25 @@ class gervifonn:
 
     def update(self, *args):
         status = self.mpc.status()
-        if status['state'] in ['pause', 'play']:
+        if 'state' in status and status['state'] in ['pause', 'play']:
             self.timeupdate = 1
-            self.timescale.set(100*float(status['elapsed'])/float(status['duration']))
+            if 'duration' in status and 'elapsed' in status:
+                self.timescale.set(100*float(status['elapsed'])/float(status['duration']))
+            else:
+                self.timescale.set(0)
             song = self.mpc.currentsong()
-            self.artist = song['artist']
-            self.album = song['album']
-            self.title = song['title']
+            if 'artist' in song:
+                self.artist = song['artist']
+            else:
+                self.artist = ''
+            if 'album' in song:
+                self.album = song['album']
+            else:
+                self.album = ''
+            if 'title' in song:
+                self.title = song['title']
+            else:
+                self.title = ''
             talbum = self.getalbum(self.artist, self.album)
             if talbum >= 0:
                 self.coverimage = self.music[talbum].get_image()
@@ -463,4 +475,4 @@ if __name__ == "__main__":
     parser.add_argument('-s', '--snapcastserver', required=True, help='Hostname of the snapcast server')
     parser.add_argument('-c', '--snapcastclient', required=True, help='Name of the snapcast client')
     args=parser.parse_args()
-    GF = gervifonn(args.musicfolder, os.path.dirname(__file__), args.mpdserver, args.snapcastserver,args.snapcastclient)
+    GF = gervifonn(args.musicfolder, os.path.dirname(__file__), args.mpdserver, args.snapcastserver, args.snapcastclient)
