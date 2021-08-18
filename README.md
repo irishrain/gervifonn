@@ -75,6 +75,34 @@ gervifonn.py requires the following arguments:
 | -s SNAPCASTSERVER     | Hostname of the snapcast server |
 | -c SNAPCASTCLIENT     | Name of the snapcast client (that will be controlled by the volume knob)    |
 
+### Software for training the AI
+train_gervifonn.py requires the following arguments:
+| Argument | Description |
+| -------- | ----------- |
+| -m MUSICFOLDER        | Path to the music library       |
+| -b BACKGROUNDFOLDER   | Path to a folder containing random images to make the image recognition more robust   |
 
 
 ## Detailed Usage
+When using the gervifonn the display will show the current function of the buttons and the rotary knob. The three buttons on the left of the screen match the pushbuttons. On the right of the screen you can see what turning and pushing the knob will do.
+
+
+* The default screen of the gervifonn will display the currently playing album cover, artist, album title and song title. The slider at the bottom shows playback position inside the song, the slider at the right the current volume:
+![Playing](doc/playing.png "Screenshot of gervifonn when playing music")
+
+The three buttons can be used to pause/continue and switch songs. Turning the knob will change the volume. You can also use the slider below the cover to change the position in the song and the slider to the right to change the volume. To change the playing album, place the case on the gervifonn and press the knob.
+
+* While the gervifonn is identifying the CD the display will show the picture taken by the camera:
+![Identifying](doc/identifying.png "Screenshot of gervifonn when identifying CD")
+
+
+* When the gervifonn identified the CD it will show the cover, artist and title of the album:
+![Identified](doc/identified.png "Screenshot of gervifonn when CD was identified")
+
+The left button cancels the change and goes back to the default screen. The middle button confirms that the CD was identified correctly and will start to play it. The right button can be used to select the correct album if the CD was not identified correctly.
+
+* When the CD was not identified correctly, the display shows a list of all your albums:
+![Correct](doc/correct.png "Screenshot of gervifonn when the identified CD needs to be corrected")
+
+The left button cancels the correction and goes back to the previous screen. You can either use the touchscreen or turn the knob to select the album you put on the gervifonn. Then you can press the knob to confirm your selection and start playback.
+
