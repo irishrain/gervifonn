@@ -30,20 +30,13 @@ from keras.applications import DenseNet121
 import tensorflow as tf
 import argparse
 
-gpu = tf.config.experimental.list_physical_devices('GPU')
-tf.config.experimental.set_memory_growth(gpu[0], True)
-
-batchsize = 2
-numepochs = 48
-imgsize = 224
-factor = 8
-
-
 class gervifonntrainingdatagenerator(Sequence):
-    def __init__(self, musicfolder, bgfolder, mode):
+    def __init__(self, imgsize, musicfolder, bgfolder, mode, batchsize):
         self.mode = mode
+        self.imgsize = imgsize
+        self.batchsize = batchsize
         if self.mode == 'train':
-            self.factor = factor
+            self.factor = 8
         else:
             self.factor = 1
         imagePaths = list(paths.list_images(musicfolder))
@@ -56,7 +49,7 @@ class gervifonntrainingdatagenerator(Sequence):
             if imagePath.endswith('cover.png'):
                 label = os.path.sep.join(imagePath.split(os.path.sep)[-3:-1])
                 if self.mode == 'train':
-                    image = load_img(imagePath, target_size=(imgsize, imgsize))
+                    image = load_img(imagePath, target_size=(self.imgsize, self.imgsize))
                     image = np.asarray(image)
                     self.data.append(image)
                 if label not in self.classes:
@@ -68,14 +61,14 @@ class gervifonntrainingdatagenerator(Sequence):
             if (not imagePath.endswith('cover.png')) and ('gervifonn' in imagePath):
                 label = os.path.sep.join(imagePath.split(os.path.sep)[-4:-2])
                 if label in self.classes:
-                    image = load_img(imagePath, target_size=(imgsize, imgsize))
+                    image = load_img(imagePath, target_size=(self.imgsize, self.imgsize))
                     image = np.asarray(image)
                     self.data.append(image)
                     self.labels.append(self.classes[label])
         if self.mode == 'train':
             imagePaths = list(paths.list_images(bgfolder))
             for imagePath in imagePaths:
-                image = load_img(imagePath, target_size=(imgsize, imgsize))
+                image = load_img(imagePath, target_size=(self.imgsize, self.imgsize))
                 image = np.asarray(image)
                 self.bgs.append(image)
         self.data = np.array(self.data, dtype="uint8")
@@ -87,10 +80,10 @@ class gervifonntrainingdatagenerator(Sequence):
         self.datagen = ImageDataGenerator()
 
     def __len__(self):
-        return int(np.floor(len(self.data)*self.factor / batchsize))
+        return int(np.floor(len(self.data)*self.factor / self.batchsize))
 
     def __getitem__(self, index):
-        return self.__getbatch__(index, batchsize)
+        return self.__getbatch__(index, self.batchsize)
 
     def __getbatch__(self, index, bs):
         indexes = self.indexes[index * bs:(index + 1) * bs]
@@ -105,7 +98,7 @@ class gervifonntrainingdatagenerator(Sequence):
                     scalefact = 0.8 + (0.2*random.random())
                     image = ndimage.zoom(image, (scalefact, scalefact, 1))
                     scaledsize = image.shape[0]
-                    offs = (imgsize-scaledsize)//2
+                    offs = (self.imgsize-scaledsize)//2
                     bg[offs:offs+scaledsize, offs:offs+scaledsize, :] = bg[offs:offs+scaledsize, offs:offs+scaledsize, :]*0.2+0.8*image
                     image = bg
                 image[:, :, 0] = (0.7+(0.3*random.random()))*image[:, :, 0]
@@ -115,16 +108,16 @@ class gervifonntrainingdatagenerator(Sequence):
                     bg = np.copy(random.choice(self.bgs))
                     bg = self.datagen.apply_transform(x=bg,
                         transform_parameters={"theta": -20+(40*random.random()),
-                            "tx": (imgsize*((random.random()-0.5)*0.1)),
-                            "ty": (imgsize*((random.random()-0.5)*0.1)),
+                            "tx": (self.imgsize*((random.random()-0.5)*0.1)),
+                            "ty": (self.imgsize*((random.random()-0.5)*0.1)),
                             "shar": -20+(40*random.random()),
                             "zx": min(1, 0.5+random.random()),
                             "zy": min(1, 0.5+random.random())})
                     image[:, :, :] = 0.8*image[:, :, :]+0.2*bg[:, :, :]
                 image = self.datagen.apply_transform(x=image,
                     transform_parameters={"theta": -20+(40*random.random()),
-                        "tx": (imgsize*((random.random()-0.5)*0.1)),
-                        "ty": (imgsize*((random.random()-0.5)*0.1)),
+                        "tx": (self.imgsize*((random.random()-0.5)*0.1)),
+                        "ty": (self.imgsize*((random.random()-0.5)*0.1)),
                         "shar": -20+(40*random.random()),
                         "zx": min(1, 0.5+random.random()),
                         "zy": min(1, 0.5+random.random())})
@@ -132,8 +125,8 @@ class gervifonntrainingdatagenerator(Sequence):
                     bg = np.copy(random.choice(self.bgs))
                     bg = self.datagen.apply_transform(x=bg,
                         transform_parameters={"theta": -20+(40*random.random()),
-                            "tx": (imgsize*((random.random()-0.5)*0.1)),
-                            "ty":  (imgsize*((random.random()-0.5)*0.1)),
+                            "tx": (self.imgsize*((random.random()-0.5)*0.1)),
+                            "ty":  (self.imgsize*((random.random()-0.5)*0.1)),
                             "shar": -20+(40*random.random()),
                             "zx": min(1, 0.5+random.random()),
                             "zy": min(1, 0.5+random.random())})
@@ -142,8 +135,8 @@ class gervifonntrainingdatagenerator(Sequence):
                     bg = np.copy(random.choice(self.data))
                     bg = self.datagen.apply_transform(x=bg,
                         transform_parameters={"theta": -20+(40*random.random()),
-                            "tx": (imgsize*((random.random()-0.5)*0.1)),
-                            "ty": (imgsize*((random.random()-0.5)*0.1)),
+                            "tx": (self.imgsize*((random.random()-0.5)*0.1)),
+                            "ty": (self.imgsize*((random.random()-0.5)*0.1)),
                             "shar": -20+(40*random.random()),
                             "zx": min(1, 0.5+random.random()),
                             "zy": min(1, 0.5+random.random())})
@@ -160,11 +153,20 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Create TFLite model for gervifonn')
     parser.add_argument('-m', '--musicfolder',  required=True,  help='Path to the music library')
     parser.add_argument('-b', '--backgroundfolder', required=True, help='Path to the background images')
+    parser.add_argument('-s', '--batchsize', required=False, type=int, default=2, help='Batchsize for training, affects GPU memory usage')
+    parser.add_argument('-e', '--epochs', required=False, type=int, default=48, help='Number of epochs for training')
+    parser.add_argument('-d', '--dynamicmemorygrowth', action='store_true', help='Enable dynamic GPU memory allocation')
     args=parser.parse_args()
     musicfolder = args.musicfolder
     bgfolder = args.backgroundfolder
-    generator = gervifonntrainingdatagenerator(musicfolder, bgfolder, 'train')
-    valgenerator = gervifonntrainingdatagenerator(musicfolder, bgfolder, 'val')
+    batchsize = args.batchsize
+    numepochs = args.epochs
+    imgsize = 224
+    if args.dynamicmemorygrowth:
+        gpu = tf.config.experimental.list_physical_devices('GPU')
+        tf.config.experimental.set_memory_growth(gpu[0], True)
+    generator = gervifonntrainingdatagenerator(imgsize, musicfolder, bgfolder, 'train', batchsize)
+    valgenerator = gervifonntrainingdatagenerator(imgsize, musicfolder, bgfolder, 'val', batchsize)
     model = DenseNet121(input_shape=(imgsize, imgsize, 3), weights=None, classes=generator.numclasses)
     opt = Adam()
     model.compile(loss="categorical_crossentropy", optimizer=opt, metrics=["accuracy"])
