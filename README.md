@@ -9,6 +9,20 @@ The gervifonn displays the currently playing album. You can change the volume, p
 ## Name
 The name "gervifonn" derives from the icelandic words "gervigreind" (Artificial Intelligence) and "fónn" (Record Player).
 
+## Assembly
+See below for details of required parts and software. Assemble the gervifonn in the following order:
+1. Install Raspberry Pi OS software on micro SD card and put micro SD card into Raspberry Pi
+2. Configure Rasberry Pi OS for automatic login, enable wifi and ssh access and install the display drivers provided by the vendor
+3. Install gervifonn software
+4. Install pushbuttons, rotary encoder and knob
+5. Connect camera cable to camera. Put together the right and left half of the case, fitting the camera into the camera holder and threading the power cord through the hole in the back of the case. Make a knot in the power cord as a strain relief. Use screws and nuts to secure
+6. Use screws to fix Raspberry Pi on bottom part of the case
+7. Connect the pushbuttons and the rotary encoder like this using the flat ribbon cable:
+![Connections](doc/breadboard.png "Breadboard view of required connections")
+6. Connect the camera cable to the Raspberry Pi and install display
+7. Insert bottom part of case and secure with screws and nuts
+ 
+
 ## Components
 ### Case
 ![Gervifonn case](case/gervifonn.png "Gervifonn case")
@@ -26,12 +40,15 @@ Additionally the following parts were used (links to amazon.de, not sponsored):
 * Micro-SD card
 * Power supply for Raspberry Pi 3
 
+
+
 ### Software on the device
-The software running on the gervifonn can be found under [src](src). Install the requirements with `pip install -r requirements.txt` and place [src\gervifonn.desktop](src\gervifonn.desktop) into the /home/pi/.config/autostart/ directory of your raspberry. You might want to adapt the path to the music directory, the hostname of the [MPD](https://www.musicpd.org/) server, and the (Snapcast)[https://github.com/badaix/snapcast] server and client.
+The gervifonn uses [Raspberry Pi OS](https://www.raspberrypi.org/software/) as a base.
+The additional software running on the gervifonn can be found under [src](src). Install the requirements with `pip install -r requirements.txt` and place [src\gervifonn.desktop](src\gervifonn.desktop) into the /home/pi/.config/autostart/ directory of your raspberry. You might want to adapt the path to the gervifonn.py, the path to the music directory, the hostname of the [MPD](https://www.musicpd.org/) server, and the [https://github.com/badaix/snapcast](Snapcast) server and client.
 
 ### Software for training the AI
-The AI-model needs to be trained on a more powerfull machine than a raspberry pi. A GPU with CUDA support is recommended, see [here](https://www.tensorflow.org/install/gpu#install_cuda_with_apt) for installation hints for the required libraries. To train the model use [training/train_gervifonn.py](training/train_gervifonn.py), with the path to your music folder and a folder with background images as arguments (details see below).
-The resulting `gervifonn.model` needs to be converted to a `gervifonn.tflite` model and placed together with the generated `labels.txt` on your raspberry pi in the same folder as [src\gervifonn.py].
+The AI-model needs to be trained on a more powerfull (linux) machine than a raspberry pi. A GPU with CUDA support is recommended, see [here](https://www.tensorflow.org/install/gpu#install_cuda_with_apt) for installation hints for the required libraries. Install the python libraries needed with `pip install -r training/requirements.txt`. To train the model use [training/train_gervifonn.py](training/train_gervifonn.py), with the path to your music folder and a folder with background images as arguments (details see below).
+The resulting `gervifonn.tflite` model needs to be placed together with the generated `labels.txt` on your raspberry pi in the same folder as [src\gervifonn.py].
 
 ## Prerequesites
 The gervifonn currently expects the following environment:
@@ -49,4 +66,15 @@ The actual playback of the music is handled by the (Music Player Daemon)[https:/
 The audio is streamed from the MPD via (Snapcast)[https://github.com/badaix/snapcast] to the actual playback devices. The volume of one Snapcast client can be controlled by the gervifonn.
 
 ## Configuration
+### Software on the device
+gervifonn.py requires the following arguments:
+| Argument | Description |
+| -------- | ----------- |
+| -m MUSICFOLDER        | Path to the music library       |
+| -n MPDSERVER          | Hostname of the MPD server      |
+| -s SNAPCASTSERVER     | Hostname of the snapcast server |
+| -c SNAPCASTCLIENT     | Name of the snapcast client (that will be controlled by the volume knob)    |
+
+
+
 ## Detailed Usage
