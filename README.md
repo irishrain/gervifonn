@@ -48,14 +48,14 @@ The additional software running on the gervifonn can be found under [src](src). 
 
 ### Software for training the AI
 The AI-model needs to be trained on a more powerfull (linux) machine than a raspberry pi. A GPU with CUDA support is recommended, see [here](https://www.tensorflow.org/install/gpu#install_cuda_with_apt) for installation hints for the required libraries. Install the python libraries needed with `pip install -r training/requirements.txt`. To train the model use [training/train_gervifonn.py](training/train_gervifonn.py), with the path to your music folder and a folder with background images as arguments (details see below).
-The resulting `gervifonn.tflite` model needs to be placed together with the generated `labels.txt` on your raspberry pi in the same folder as [src\gervifonn.py].
+The resulting `gervifonn.tflite` model needs to be placed together with the generated `labels.txt` on your raspberry pi in the same folder as [src/gervifonn.py](src/gervifonn.py).
 
 ## Prerequesites
 The gervifonn currently expects the following environment:
 ### Music library
 The music library should be structured in the way [Jack](https://github.com/jack-cli-cd-ripper/jack) creates it, meaning one folder per Artist with subfolders for each album. Samplers are stored in the `Various` folder.
 
-In addition, a cover image must be present in each folder, named `cover.png`. Optionally, you can place additional cover images in a subfolder called `gervifonn` inside each album. This will also be done by the gervifonn when you are using it.
+In addition, a cover image must be present in each folder, named `cover.png`. Optionally, you can place additional cover images in a subfolder called `gervifonn` inside each album. This will also be done by the gervifonn when you are using it. To simplify taking cover pictures of a bigger collection, you can use [src/gervifonn_capture_covers.py](src/gervifonn_capture_covers.py). Start it on the gervifonn, place the album on the gervifonn and press the leftmode button. It will take a picture in the correct format, display it and save it to the current folder. You can then put the next album on the gervifonn and press the leftmost button again.
 
 As albums with multiple CDs only have one cover, only place the `cover.png` in the first folder and create symlinks called `next` linking to the following CD.
 
