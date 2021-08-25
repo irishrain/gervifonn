@@ -82,6 +82,12 @@ train_gervifonn.py requires the following arguments:
 | -m MUSICFOLDER        | Path to the music library       |
 | -b BACKGROUNDFOLDER   | Path to a folder containing random images to make the image recognition more robust   |
 
+Additionally, the following optional arguments are supported:
+| Argument | Description |
+| -------- | ----------- |
+| -s BATCHSIZE        | Batchsize for training, affects GPU memory usage. Default: 2      |
+| -e EPOCHS   | Number of epochs for training. Default: 48   |
+| -d          | Enable dynamic GPU memory allocation |
 
 ## Detailed Usage
 When using the gervifonn the display will show the current function of the buttons and the rotary knob. The three buttons on the left of the screen match the pushbuttons. On the right of the screen you can see what turning and pushing the knob will do.
