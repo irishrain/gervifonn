@@ -59,6 +59,39 @@ In addition, a cover image must be present in each folder, named `cover.png`. Op
 
 As albums with multiple CDs only have one cover, only place the `cover.png` in the first folder and create symlinks called `next` linking to the following CD.
 
+To recap, here is an example folder structure:
+~~~
+Artist A
+    Album 1
+        gervifonn
+            123.png
+        cover.png
+        Track X.ogg
+        Track Y.ogg
+        ...
+    Album 2
+        gervifonn
+            456.png
+            789.png
+        cover.png
+        Track I.ogg
+        Track J.ogg
+        ...
+    ...
+Artist B
+    Album 1 CD 1
+        gervifonn
+            abc.png
+        cover.png
+        Track X.ogg
+        ...
+        next (symlink to ../Album 1 CD 2)
+    Album 1 CD 2
+        Track Y.ogg
+        ...
+...
+~~~
+
 ### Music Player Daemon
 The actual playback of the music is handled by the (Music Player Daemon)[https://www.musicpd.org/]. The MPD should be configured to read in your music library and should be reachable from the gervifonn (without authentification). If you don't have an extra machine, it should be fine to install the MPD on the gervifonn as well.
 
