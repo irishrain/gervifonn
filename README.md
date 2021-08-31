@@ -6,6 +6,12 @@ The gervifonn is a device to access music stored in a digital music library by i
 ## Features
 The gervifonn displays the currently playing album. You can change the volume, pause playback or skip to the previous/next song. When you put a CD case onto the gervifonn and press the knob, it uses an AI to recognize the album you want to play.
 
+### gervifonn in action
+
+https://user-images.githubusercontent.com/74204581/131494693-2eaad112-3a38-4ad9-bd8d-b11cf11d26b1.mp4
+
+https://user-images.githubusercontent.com/74204581/131494710-aeeac02b-b2e4-4ee5-975f-765dfd78c2d3.mp4
+
 ## Name
 The name "gervifonn" derives from the icelandic words "gervigreind" (Artificial Intelligence) and "fónn" (Record Player).
 
@@ -44,7 +50,7 @@ Additionally the following parts were used (links to amazon.de, not sponsored):
 
 ### Software on the device
 The gervifonn uses [Raspberry Pi OS](https://www.raspberrypi.org/software/) as a base.
-The additional software running on the gervifonn can be found under [src](src). Install the requirements with `pip install -r requirements.txt` and place [src\gervifonn.desktop](src\gervifonn.desktop) into the /home/pi/.config/autostart/ directory of your raspberry. You might want to adapt the path to the gervifonn.py, the path to the music directory, the hostname of the [MPD](https://www.musicpd.org/) server, and the [https://github.com/badaix/snapcast](Snapcast) server and client.
+The additional software running on the gervifonn can be found under [src](src). Install the requirements with `pip install -r requirements.txt` and place [src\gervifonn.desktop](src\gervifonn.desktop) into the /home/pi/.config/autostart/ directory of your raspberry. You might want to adapt the path to the gervifonn.py, the path to the music directory, the hostname of the [MPD](https://www.musicpd.org/) server, and the [Snapcast](https://github.com/badaix/snapcast) server and client.
 
 ### Software for training the AI
 The AI-model needs to be trained on a more powerfull (linux) machine than a raspberry pi. A GPU with CUDA support is recommended, see [here](https://www.tensorflow.org/install/gpu#install_cuda_with_apt) for installation hints for the required libraries. Install the python libraries needed with `pip install -r training/requirements.txt`. To train the model use [training/train_gervifonn.py](training/train_gervifonn.py), with the path to your music folder and a folder with background images as arguments (details see below).
@@ -93,10 +99,10 @@ Artist B
 ~~~
 
 ### Music Player Daemon
-The actual playback of the music is handled by the (Music Player Daemon)[https://www.musicpd.org/]. The MPD should be configured to read in your music library and should be reachable from the gervifonn (without authentification). If you don't have an extra machine, it should be fine to install the MPD on the gervifonn as well.
+The actual playback of the music is handled by the [Music Player Daemon](https://www.musicpd.org/). The MPD should be configured to read in your music library and should be reachable from the gervifonn (without authentification). If you don't have an extra machine, it should be fine to install the MPD on the gervifonn as well.
 
 ### Scnapcast
-The audio is streamed from the MPD via (Snapcast)[https://github.com/badaix/snapcast] to the actual playback devices. The volume of one Snapcast client can be controlled by the gervifonn.
+The audio is streamed from the MPD via [Snapcast](https://github.com/badaix/snapcast) to the actual playback devices. The volume of one Snapcast client can be controlled by the gervifonn.
 
 ## Configuration
 ### Software on the device
