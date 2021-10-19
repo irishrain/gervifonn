@@ -50,7 +50,7 @@ Additionally the following parts were used (links to amazon.de, not sponsored):
 
 ### Software on the device
 The gervifonn uses [Raspberry Pi OS](https://www.raspberrypi.org/software/) as a base.
-The additional software running on the gervifonn can be found under [src](src). Install the requirements with `pip install -r requirements.txt` and place [src\gervifonn.desktop](src\gervifonn.desktop) into the /home/pi/.config/autostart/ directory of your raspberry. You might want to adapt the path to the gervifonn.py, the path to the music directory, the hostname of the [MPD](https://www.musicpd.org/) server, and the [Snapcast](https://github.com/badaix/snapcast) server and client.
+The additional software running on the gervifonn can be found under [src](src). Install the requirements with `pip install -r requirements.txt` and place [src\gervifonn.desktop](src\gervifonn.desktop) into the /home/pi/.config/autostart/ directory of your raspberry. You might want to adapt the path to the gervifonn.py, the path to the music directory, the hostname of the [MPD](https://www.musicpd.org/) server, and the [Snapcast](https://github.com/badaix/snapcast) server and client if used.
 
 ### Software for training the AI
 The AI-model needs to be trained on a more powerfull (linux) machine than a raspberry pi. A GPU with CUDA support is recommended, see [here](https://www.tensorflow.org/install/gpu#install_cuda_with_apt) for installation hints for the required libraries. Install the python libraries needed with `pip install -r training/requirements.txt`. To train the model use [training/train_gervifonn.py](training/train_gervifonn.py), with the path to your music folder and a folder with background images as arguments (details see below).
@@ -102,7 +102,7 @@ Artist B
 The actual playback of the music is handled by the [Music Player Daemon](https://www.musicpd.org/). The MPD should be configured to read in your music library and should be reachable from the gervifonn (without authentification). If you don't have an extra machine, it should be fine to install the MPD on the gervifonn as well.
 
 ### Scnapcast
-The audio is streamed from the MPD via [Snapcast](https://github.com/badaix/snapcast) to the actual playback devices. The volume of one Snapcast client can be controlled by the gervifonn.
+If the audio is streamed from the MPD via [Snapcast](https://github.com/badaix/snapcast) to the actual playback devices, the volume of one Snapcast client can be controlled by the gervifonn.
 
 ## Configuration
 ### Software on the device
@@ -111,8 +111,11 @@ gervifonn.py requires the following arguments:
 | -------- | ----------- |
 | -m MUSICFOLDER        | Path to the music library       |
 | -n MPDSERVER          | Hostname of the MPD server      |
-| -s SNAPCASTSERVER     | Hostname of the snapcast server |
-| -c SNAPCASTCLIENT     | Name of the snapcast client (that will be controlled by the volume knob)    |
+
+Additionally, the following optional arguments are supported:
+| Argument | Description |
+| -s SNAPCASTSERVER     | Hostname of the snapcast server (that will be used to controll the volume). MPD server is used for volume if not given |
+| -c SNAPCASTCLIENT     | Name of the snapcast client (that will be controlled by the volume knob). MPD server is used for volume if not given    |
 
 ### Software for training the AI
 train_gervifonn.py requires the following arguments:

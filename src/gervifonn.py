@@ -62,9 +62,16 @@ class gervifonn:
         self.album = ''
         self.title = ''
         self.initmusic()
-        self.initwidgets()
         self.initmpc(mpdserver)
-        self.initsnapcast(snapcastserver, snapcastclient)
+        if (snapcastserver is None or snapcastclient is None):
+            self.volupdate = 0
+            self.setvol=self.setvol_mpd
+            self.getvol=self.getvol_mpd
+        else:
+            self.initsnapcast(snapcastserver, snapcastclient)
+            self.setvol=self.setvol_snap
+            self.getvol=self.getvol_snap
+        self.initwidgets()
         self.showdefaultwindow()
         self.update(False)
         self.root.after(1000, self.update)
@@ -259,12 +266,29 @@ class gervifonn:
         else:
             self.timeupdate = 0
 
-    def setvol(self, perc):
+    def setvol_snap(self, perc):
         if self.volupdate == 0:
             self.volume = float(perc)
             self.snaploop.run_until_complete(self.snapserver.client_volume(self.snapclientid, {'percent': self.volume, 'muted': False}))
         else:
             self.volupdate = 0
+
+    def setvol_mpd(self, perc):
+        if self.volupdate == 0:
+            self.volume = float(perc)
+            self.mpc.setvol(int(self.volume))
+        else:
+            self.volupdate = 0
+
+    def getvol_snap(self):
+        return self.snaploop.run_until_complete(self.snapserver.client_status(self.snapclientid))['config']['volume']['percent']
+
+    def getvol_mpd(self):
+        status = self.mpc.status()
+        if 'volume' in status:
+            return int(status['volume'])
+        else:
+            return 0
 
     def update(self, *args):
         status = self.mpc.status()
@@ -298,7 +322,7 @@ class gervifonn:
             self.album = ''
             self.title = ''
             self.coverimage = ImageTk.PhotoImage(Image.new("RGB", (20, 20), "white"))
-        self.volume = self.snaploop.run_until_complete(self.snapserver.client_status(self.snapclientid))['config']['volume']['percent']
+        self.volume = self.getvol()
         self.volupdate = 1
         self.volumescale.set(self.volume)
         if self.state == 'default':
@@ -472,7 +496,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Gervifonn GUI')
     parser.add_argument('-m', '--musicfolder',  required=True,  help='Path to the music library')
     parser.add_argument('-n', '--mpdserver', required=True, help='Hostname of the MPD server')
-    parser.add_argument('-s', '--snapcastserver', required=True, help='Hostname of the snapcast server')
-    parser.add_argument('-c', '--snapcastclient', required=True, help='Name of the snapcast client')
+    parser.add_argument('-s', '--snapcastserver', required=False, help='Hostname of the snapcast server')
+    parser.add_argument('-c', '--snapcastclient', required=False, help='Name of the snapcast client')
     args=parser.parse_args()
     GF = gervifonn(args.musicfolder, os.path.dirname(__file__), args.mpdserver, args.snapcastserver, args.snapcastclient)
