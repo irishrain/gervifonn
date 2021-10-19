@@ -1,3 +1,8 @@
+# Gervifonn AI model
+/src/gervifonn.tflite
+/src/labels.txt
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
