@@ -114,6 +114,7 @@ gervifonn.py requires the following arguments:
 
 Additionally, the following optional arguments are supported:
 | Argument | Description |
+| -------- | ----------- |
 | -s SNAPCASTSERVER     | Hostname of the snapcast server (that will be used to controll the volume). MPD server is used for volume if not given |
 | -c SNAPCASTCLIENT     | Name of the snapcast client (that will be controlled by the volume knob). MPD server is used for volume if not given    |
 
