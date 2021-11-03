@@ -36,7 +36,7 @@ The case is 3D printed. The [OpenSCAD](https://www.openscad.org/) source and gen
 ### Hardware
 The heart of the gervifonn is a [Raspberry Pi 3 B+](https://www.raspberrypi.org/products/raspberry-pi-3-model-b-plus/).
 Additionally the following parts were used (links to amazon.de, not sponsored):
-* [Raspberry Pi Camera Revision 1.3](https://www.amazon.de/gp/product/B07CMXJLXR/)
+* [Raspberry Pi Camera Revision 1.3](https://www.amazon.de/gp/product/B07CMXJLXR/) (use the long cable, not the 15cm one)
 * [3.5 inch 320\*480 Resolution Touch Screen](https://www.amazon.de/gp/product/B01CNLYL1C/)
 * [12mm pushbuttons](https://www.amazon.de/gp/product/B075YNQQ8J)
 * [KY-040 Rotary Encoder](https://www.amazon.de/gp/product/B07CMVQHLT)
