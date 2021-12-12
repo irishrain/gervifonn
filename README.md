@@ -17,8 +17,8 @@ The name "gervifonn" derives from the icelandic words "gervigreind" (Artificial 
 
 ## Assembly
 See below for details of required parts and software. Assemble the gervifonn in the following order:
-1. Install Raspberry Pi OS software on micro SD card and put micro SD card into Raspberry Pi
-2. Configure Rasberry Pi OS for automatic login, enable wifi and ssh access and install the display drivers provided by the vendor
+1. Install Raspberry Pi OS (Legacy) on micro SD card and put micro SD card into Raspberry Pi
+2. Configure Rasberry Pi OS for automatic login, enable wifi, camera and ssh access and install the display drivers provided by the vendor
 3. Install gervifonn software
 4. Install pushbuttons, rotary encoder and knob
 5. Connect camera cable to camera. Put together the right and left half of the case, fitting the camera into the camera holder and threading the power cord through the hole in the back of the case. Make a knot in the power cord as a strain relief. Use screws and nuts to secure
@@ -61,7 +61,7 @@ The gervifonn currently expects the following environment:
 ### Music library
 The music library should be structured in the way [Jack](https://github.com/jack-cli-cd-ripper/jack) creates it, meaning one folder per Artist with subfolders for each album. Samplers are stored in the `Various` folder.
 
-In addition, a cover image must be present in each folder, named `cover.png`. Optionally, you can place additional cover images in a subfolder called `gervifonn` inside each album. This will also be done by the gervifonn when you are using it. To simplify taking cover pictures of a bigger collection, you can use [src/gervifonn_capture_covers.py](src/gervifonn_capture_covers.py). Start it on the gervifonn, place the album on the gervifonn and press the leftmode button. It will take a picture in the correct format, display it and save it to the current folder. You can then put the next album on the gervifonn and press the leftmost button again.
+In addition, a cover image must be present in each folder, named `cover.png`. Optionally, you can place additional cover images in a subfolder called `gervifonn` inside each album. This will also be done by the gervifonn when you are using it. To simplify taking cover pictures of a bigger collection, you can use [src/gervifonn_capture_covers.py](src/gervifonn_capture_covers.py). Start it on the gervifonn, place the album on the gervifonn and press the leftmost button. It will take a picture in the correct format, display it and save it to the current folder. You can then put the next album on the gervifonn and press the leftmost button again. (Hint: use DISPLAY=:0 in front of the command when connected via ssh).
 
 As albums with multiple CDs only have one cover, only place the `cover.png` in the first folder and create symlinks called `next` linking to the following CD.
 
